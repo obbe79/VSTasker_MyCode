@@ -1,0 +1,17 @@
+setLatLonDecimal(1);
+log("INITIAL STATE");
+log("--------------------");
+   for (int i=0; i<scen()->entities.count(); i++) {
+      Entity* ent = (Entity*) scen()->entities[i];
+      if ((strncmp(ent->getName(),"PA",2) == 0) ||
+                  (strncmp(ent->getName(),"GA",2) == 0) ||
+                  (strncmp(ent->getName(),"RP",2) == 0)) {
+
+          log(strAdd(ent->getName(),":"));
+          log(strAdd("LAT: ", convLatToStr(ent->pos.getLat())));
+          log(strAdd("LON: ", convLonToStr(ent->pos.getLon())));
+          log("--------------------");
+      }
+   }
+
+
