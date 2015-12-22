@@ -1,0 +1,30 @@
+
+int Context::badWeather()
+{
+   // get the bad weather
+   ZoneRep* bw = (ZoneRep*) S:findFeature("badweather");
+
+   if (bw) {
+      // get DVR
+      GndRefAirport* arp = S:navigation.getRNav()->findAirport("EGKK", "EG");
+     if (arp) {
+        WCoord arp_pos(WC_LLA, arp->apt_lat, arp->apt_lon, 0);
+        arp_pos.convertToXYZ();
+
+        WCoord bc = bw->getBarycenter();
+        double dist = arp_pos.distanceTo2D(bc);
+        //cout << dist <<endl;
+
+        // Utilizziamo la distanza tra aeroporto (arp) e baricentro meteo
+        // per decidere quando dare l'allerta
+
+        if (dist<=250000) return true; // se la distanza tra aeroporto e meteo è minore di 200 km, ALLERTA
+
+        // Nel seguente modo si verifica che arp è dentro la zona.
+        //int inside = bw->isIn(arp_pos);
+        //if (inside) return true;
+     }
+   }
+   return false;
+}
+
