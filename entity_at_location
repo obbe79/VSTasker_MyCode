@@ -1,0 +1,7 @@
+WCoord lirn(WC_LLA,39.666516,14.848453,0); //il primo arg specifica il tipo di coordinate
+lirn.convertLLAtoXYZ(); //vstasker usa XYZ
+Entity* ac = new Entity("default",lirn,"arr2"); //creazione dell'entità
+
+ac->dyn->setAltitude(convFeetToM(12000));
+FlightManage* fm = ac->findFlightManage();
+fm->setFlightPlan("arr2");
