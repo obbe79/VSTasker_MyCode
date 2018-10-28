@@ -1,0 +1,31 @@
+void Cpt::loadFile(char* fname)
+{
+#define MAX_LINE 1024
+char line[MAX_LINE];
+// if fname is provided replace filename with this
+if (fname) strcpy(filename,fname);
+//open file
+      fd=fopen(filename,"r");
+      if (fd) {
+         fgets(line,MAX_LINE,fd);
+            if (in_memory){
+                  while (!feof(fd)) {
+                     fgets(line,MAX_LINE,fd);
+                     HTrackData* item = new HTrackData;
+                     sscanf(line, "%f\t%lf\t%lf\t%lf\t%f\t%f\t%f\n",
+                                  &item->time,
+                                  &item->pos.x,&item->pos.y,&item->pos.z,
+                                  &item->speed, &item->track, &item->vs);
+                     item->pos.convertLLAtoXYZ();
+                     item->pos.z = convFeetToM(item->pos.z);
+                     item->speed = convKnotToMs(item->speed);
+                     item->track = DEG2RAD(item->track);
+                     item->vs = convKnotToMs(item->vs);
+                     data.addElem(item, UNIQ);
+                  }
+               fclose(fd);
+               fd = NULL;
+            }
+            eot = 0;
+      }
+}
